@@ -1,4 +1,5 @@
-from basic import db 
+from flask_sqlalchemy import SQLAlchemy
+from config.alchemy_i import db 
 
 class Puppy(db.Model):  
     __tablename__ = 'puppies'
@@ -12,6 +13,4 @@ class Puppy(db.Model):
 
     def __repr__(self):
         return f"Puppy {self.name} is {self.age} years old"
-
-
 

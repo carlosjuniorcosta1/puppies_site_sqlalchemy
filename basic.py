@@ -1,36 +1,28 @@
 import os 
 from flask import Flask
 from config.config import Config
+from config.alchemy_i import db
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from models.puppy import Puppy
 
 class AppFactory:
     def __init__(self):
         self.basedir = os.path.abspath(os.path.dirname(__file__))
         self.app = Flask(__name__)
         self.app.config.from_object(Config)
-        self.db = SQLAlchemy(self.app)
+        self.db = db
+        self.db.init_app(self.app)
 
     def create_app(self):
         return self.app, self.db
+    
+    def create_table(self):
+        with self.app.app_context():
+            self.db.create_all()
     
 app_factory = AppFactory()
 
 app, db = app_factory.create_app()
 
-
-
-
-
-
-
-
-# def update_puppy(id, nome=None, idade=None):
-#     with app.app_context():
-#         up_puppy = Puppy.query.get(id)
-#         if up_puppy:
-#             if nome:
-#                 up_puppy.name = nome
-#             if idade:
-#                 up_puppy.age = idade
-#             db.session.commit()
-
+Migrate(app, db)
