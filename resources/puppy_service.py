@@ -1,11 +1,11 @@
 from models.puppy import Puppy
-from config.alchemy_i import db
-from basic import app 
-
+from config.alchemy_i import db 
+from basic import app
 
 class PuppyService:
     def __init__(self):
-        pass    
+        pass
+    
     def read_puppies(self):  
         with app.app_context():
             all_puppies = Puppy.query.all()
